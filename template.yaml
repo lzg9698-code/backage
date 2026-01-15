@@ -1,0 +1,51 @@
+apiVersion: scaffold.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: jinja2-local-demo
+  title: 本地 Jinja2 渲染示例
+  description: 演示如何在本地环境使用 Jinja2 语法生成文件
+spec:
+  owner: guest
+  type: service
+
+  # 定义前端表单输入
+  parameters:
+    - title: 项目基础信息
+      required: [projectName, ownerName]
+      properties:
+        projectName:
+          title: 项目名称
+          type: string
+          description: 生成的文件中会包含此名称
+        ownerName:
+          title: 负责人姓名
+          type: string
+        isProduction:
+          title: 是否为生产环境？
+          type: boolean
+          default: false
+
+  # 定义渲染动作
+  steps:
+    - id: fetch-template
+      name: 正在渲染 Jinja2 模板
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          # 将表单数据映射给 Jinja2 变量
+          name: ${{ parameters.projectName }}
+          owner: ${{ parameters.ownerName }}
+          isProd: ${{ parameters.isProduction }}
+
+    - id: debug-log
+      name: 输出结果到控制台
+      action: debug:log
+      input:
+        listWorkspace: true # 这会在 Backstage 运行日志里打印渲染后的文件结构
+
+  # 输出结果（通常配合 publish 动作，本地演示可忽略）
+  output:
+    links:
+      - title: 渲染完成
+        url: http://localhost:3000/create
