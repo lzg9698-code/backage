@@ -1,9 +1,8 @@
-apiVersion: scaffold.backstage.io/v1beta3
+apiVersion: scaffold.backstage.io/v1beta3  # 检查是否拼写正确
 kind: Template
 metadata:
   name: jinja2-local-demo
-  title: 本地 Jinja2 渲染示例
-  description: 演示如何在本地环境使用 Jinja2 语法生成文件
+  title: 我的测试模板
 spec:
   owner: guest
   type: service
@@ -49,3 +48,4 @@ spec:
     links:
       - title: 渲染完成
         url: http://localhost:3000/create
+
